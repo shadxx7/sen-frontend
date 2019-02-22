@@ -1,0 +1,32 @@
+{
+  "name": "sen-frontend",
+  "version": "0.0.1",
+  "description": "Online Faculty Directory for Multi-University",
+  "main": "index.js",
+  "author": "Mohamed Shadab",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "start": "next start",
+    "build": "next build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "bootstrap": "^4.3.1",
+    "next": "^8.0.2",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "reactstrap": "^7.1.0"
+  },
+  "devDependencies": {
+    "husky": "^1.3.1",
+    "prettier": "^1.16.4",
+    "pretty-quick": "^1.10.0"
+  }
+}
