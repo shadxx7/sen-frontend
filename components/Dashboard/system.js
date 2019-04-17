@@ -1,4 +1,4 @@
-import { Row, Col, Button, Nav, NavItem } from "reactstrap"
+import { Row, Col, Button } from "reactstrap"
 import CollegeForm from "../Forms/college"
 import CollegeList from "../Lists/college"
 import "./style.css"

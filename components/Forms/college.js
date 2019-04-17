@@ -1,8 +1,36 @@
 import { Formik, Field, Form, ErrorMessage } from "formik"
 import { Label } from "reactstrap"
 import axios from "axios"
+import * as Yup from "yup"
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
+
+const CollegeFormSchema = Yup.object().shape({
+  collegeName: Yup.string()
+    .min(2, "Too short!")
+    .max(70, "Too long!")
+    .required("Required"),
+  country: Yup.string()
+    .min(2, "Too short!")
+    .max(50, "Too long!")
+    .required("Required"),
+  city: Yup.string()
+    .min(2, "Too short!")
+    .max(50, "Too long!")
+    .required("Required"),
+  adminName: Yup.string()
+    .min(2, "Too short!")
+    .max(50, "Too long!")
+    .required("Required"),
+  adminUsername: Yup.string()
+    .min(2, "Too short!")
+    .max(15, "Too long!")
+    .required("Required"),
+  password: Yup.string()
+    .min(2, "Too short!")
+    .max(20, "Too long!")
+    .required("Required"),
+})
 
 const onSubmit = async (values, actions, edit) => {
   const token = sessionStorage.getItem("TOKEN")
@@ -30,11 +58,12 @@ const onSubmit = async (values, actions, edit) => {
     })
       .then(response => {
         actions.setSubmitting(false)
-        console.log(response)
+        actions.setStatus({ msg: response.data })
       })
       .catch(err => {
         actions.setSubmitting(false)
-        console.log(err)
+        actions.setStatus({ msg: err.response.data.message })
+        actions.setErrors(err.response.data.message)
       })
   } else {
     axios({
@@ -45,11 +74,12 @@ const onSubmit = async (values, actions, edit) => {
     })
       .then(response => {
         actions.setSubmitting(false)
-        console.log(response)
+        actions.setStatus({ msg: response.data })
       })
       .catch(err => {
         actions.setSubmitting(false)
-        console.log(err)
+        actions.setStatus({ msg: err.response.data.message })
+        actions.setErrors(err.response.data.message)
       })
   }
 }
@@ -66,8 +96,9 @@ const CollegeForm = props => {
           adminUsername: "",
           password: "",
         }}
+        validationSchema={CollegeFormSchema}
         onSubmit={(values, actions) => onSubmit(values, actions, props.edit)}
-        render={({ isSubmitting }) => (
+        render={({ status, isSubmitting }) => (
           <Form>
             <div className="form-group">
               <Label>College Name</Label>
@@ -77,18 +108,30 @@ const CollegeForm = props => {
                 className="form-control"
                 required
               />
-              <ErrorMessage name="CollegeName" component="div" />
+              <ErrorMessage
+                style={{ color: "red" }}
+                name="collegeName"
+                component="div"
+              />
               <Label>Country</Label>
               <Field type="text" className="form-control" name="country" />
-              <ErrorMessage name="country" component="div" />
+              <ErrorMessage
+                style={{ color: "red" }}
+                name="country"
+                component="div"
+              />
               <Label>City</Label>
               <Field className="form-control" type="text" name="city" />
-              <ErrorMessage name="city" className="error" component="div" />
+              <ErrorMessage
+                style={{ color: "red" }}
+                name="city"
+                component="div"
+              />
               <Label>College Admin Name</Label>
               <Field className="form-control" type="text" name="adminName" />
               <ErrorMessage
+                style={{ color: "red" }}
                 name="adminName"
-                className="error"
                 component="div"
               />
               <Label>College Admin Username</Label>
@@ -99,12 +142,20 @@ const CollegeForm = props => {
               />
               <ErrorMessage
                 name="adminUsername"
-                className="error"
+                style={{ color: "red" }}
                 component="div"
               />
               <Label>Password</Label>
               <Field className="form-control" type="text" name="password" />
-              <ErrorMessage name="password" className="error" component="div" />
+              <ErrorMessage
+                name="password"
+                style={{ color: "red" }}
+                component="div"
+              />
+              <br />
+              {status && status.msg && (
+                <div style={{ color: "blue" }}>{status.msg}</div>
+              )}
               <br />
               <button
                 type="submit"

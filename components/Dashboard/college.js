@@ -1,5 +1,5 @@
 import React from "react"
-import { Row, Col, Button, Nav, NavItem, Container } from "reactstrap"
+import { Row, Col, Button } from "reactstrap"
 import FacultyForm from "../Forms/faculty"
 import FacultyList from "../Lists/faculty"
 import "./style.css"

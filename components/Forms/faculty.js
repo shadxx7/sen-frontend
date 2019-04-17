@@ -1,8 +1,32 @@
 import { Formik, Field, Form, ErrorMessage } from "formik"
 import { Label } from "reactstrap"
+import * as Yup from "yup"
 import axios from "axios"
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
+
+const FacultyFormSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, "Too short!")
+    .max(50, "Too long!")
+    .required("Required"),
+  department: Yup.string()
+    .min(2, "Too short!")
+    .max(50, "Too long!")
+    .required("Required"),
+  aoi: Yup.string()
+    .min(2, "Too short!")
+    .max(50, "Too long!")
+    .required("Required"),
+  publications: Yup.string()
+    .min(2, "Too short!")
+    .max(50, "Too long!")
+    .required("Required"),
+  coursesTaught: Yup.string()
+    .min(2, "Too short!")
+    .max(50, "Too long!")
+    .required("Required"),
+})
 
 const onSubmit = async (values, actions, edit) => {
   const collegeId = sessionStorage.getItem("COLLEGE_ID")
@@ -30,11 +54,12 @@ const onSubmit = async (values, actions, edit) => {
     })
       .then(response => {
         actions.setSubmitting(false)
-        console.log(response)
+        actions.setStatus({ msg: response.data })
       })
       .catch(err => {
         actions.setSubmitting(false)
-        console.log(err)
+        actions.setStatus({ msg: err.response.data.message })
+        actions.setErrors(err.response.data.message)
       })
   } else {
     axios({
@@ -45,11 +70,12 @@ const onSubmit = async (values, actions, edit) => {
     })
       .then(response => {
         actions.setSubmitting(false)
-        console.log(response)
+        actions.setStatus({ msg: response.data })
       })
       .catch(err => {
         actions.setSubmitting(false)
-        console.log(err)
+        actions.setStatus({ msg: err.response.data.message })
+        actions.setErrors(err.response.data.message)
       })
   }
 }
@@ -65,8 +91,9 @@ const FacultyForm = props => {
           publications: "",
           coursesTaught: "",
         }}
+        validationSchema={FacultyFormSchema}
         onSubmit={(values, actions) => onSubmit(values, actions, props.edit)}
-        render={({ isSubmitting }) => (
+        render={({ status, isSubmitting }) => (
           <Form>
             <div className="form-group">
               <Label>Name</Label>
@@ -76,16 +103,30 @@ const FacultyForm = props => {
                 className="form-control"
                 required
               />
-              <ErrorMessage name="name" component="div" />
+              <ErrorMessage
+                style={{ color: "red" }}
+                name="name"
+                component="div"
+              />
               <Label>Department</Label>
               <Field type="text" className="form-control" name="department" />
-              <ErrorMessage name="department" component="div" />
+              <ErrorMessage
+                style={{ color: "red" }}
+                name="department"
+                component="div"
+              />
               <Label>Area of Interests</Label>
               <Field className="form-control" type="text" name="aoi" />
-              <ErrorMessage name="aoi" className="error" component="div" />
+              <ErrorMessage
+                style={{ color: "red" }}
+                name="aoi"
+                className="error"
+                component="div"
+              />
               <Label>Publications</Label>
               <Field className="form-control" type="text" name="publications" />
               <ErrorMessage
+                style={{ color: "red" }}
                 name="publications"
                 className="error"
                 component="div"
@@ -97,10 +138,15 @@ const FacultyForm = props => {
                 name="coursesTaught"
               />
               <ErrorMessage
+                style={{ color: "red" }}
                 name="coursesTaught"
                 className="error"
                 component="div"
               />
+              <br />
+              {status && status.msg && (
+                <div style={{ color: "blue" }}>{status.msg}</div>
+              )}
               <br />
               <button
                 type="submit"
