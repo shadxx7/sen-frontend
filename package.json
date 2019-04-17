@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "start": "next start -P $PORT",
+    "start": "next start -p $PORT",
     "build": "next build",
     "heroku-postbuild": "yarn build"
   },
