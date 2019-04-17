@@ -61,32 +61,32 @@ class Index extends React.Component {
               <Button
                 color="primary"
                 onClick={this.onSearch}
-                style={{ borderRadius: 20, marginRight: 20 }}
+                style={{ borderRadius: 30, marginRight: 20 }}
               >
                 Search
               </Button>
-              <Label check for="byFaculty" style={{ marginRight: 30 }}>
-                by Faculty Name
+              <Label check for="byFaculty" style={{ marginLeft: 30 }}>
                 <Input
                   onChange={this.onRadioChange}
-                  style={{ marginLeft: 10 }}
+                  style={{ marginRight: 10 }}
                   type="radio"
                   value="faculty"
                   className="form-check-input"
                   name="searchType"
                 />
+                by Faculty Name
               </Label>
-              <Label check for="byCollege" style={{ marginRight: 30 }}>
-                by College
+              <Label check for="byCollege" style={{ marginLeft: 30 }}>
                 <Input
                   onChange={this.onRadioChange}
-                  style={{ marginLeft: 10 }}
+                  style={{ marginRight: 10 }}
                   className="form-check-input"
                   name="searchType"
                   type="radio"
                   value="college"
                   required
                 />
+                by College
               </Label>
             </Col>
           </Row>
@@ -105,49 +105,3 @@ class Index extends React.Component {
 }
 
 export default Index
-
-{
-  /* <Formik
-initialValues={{ search: "", searchType: "" }}
-onSubmit={this.onSearch}
-render={() => (
-  <Form>
-    <div className="form-group">
-      <Field
-        className="form-control"
-        placeholder="Search"
-        name="search"
-        type="text"
-        style={{ width: 400, borderRadius: 20 }}
-      />
-    </div>
-    <div className="form-group">
-      <Label check for="byFaculty" style={{ marginRight: 30 }}>
-        by Faculty Name
-        <Field
-          style={{ marginLeft: 10 }}
-          type="radio"
-          value="faculty"
-          className="form-check-input"
-          name="searchType"
-          required
-          checked
-        />
-      </Label>
-      <Label check for="byCollege" style={{ marginRight: 30 }}>
-        by College
-        <Field
-          style={{ marginLeft: 10 }}
-          className="form-check-input"
-          name="searchType"
-          type="radio"
-          value="college"
-          required
-        />
-      </Label>
-      <Button type="submit">Search</Button>
-    </div>
-  </Form>
-)}
-/> */
-}

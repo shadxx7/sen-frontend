@@ -4,7 +4,7 @@ import axios from "axios"
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
 
-const onSubmit = async (values, actions) => {
+const onSubmit = async (values, actions, edit) => {
   const token = sessionStorage.getItem("TOKEN")
   const finalValues = {
     college: {
@@ -21,26 +21,42 @@ const onSubmit = async (values, actions) => {
       type: "college",
     },
   }
-  axios({
-    method: "post",
-    headers: { "x-access-token": token },
-    url: `${API_URL}/college/add`,
-    data: finalValues,
-  })
-    .then(response => {
-      actions.setSubmitting(false)
-      console.log(response)
+  if (edit) {
+    axios({
+      method: "put",
+      headers: { "x-access-token": token },
+      url: `${API_URL}/college/update`,
+      data: finalValues,
     })
-    .catch(err => {
-      actions.setSubmitting(false)
-      console.log(err)
+      .then(response => {
+        actions.setSubmitting(false)
+        console.log(response)
+      })
+      .catch(err => {
+        actions.setSubmitting(false)
+        console.log(err)
+      })
+  } else {
+    axios({
+      method: "post",
+      headers: { "x-access-token": token },
+      url: `${API_URL}/college/add`,
+      data: finalValues,
     })
+      .then(response => {
+        actions.setSubmitting(false)
+        console.log(response)
+      })
+      .catch(err => {
+        actions.setSubmitting(false)
+        console.log(err)
+      })
+  }
 }
 
-const CollegeForm = () => {
+const CollegeForm = props => {
   return (
     <div>
-      <h1>Add College</h1>
       <Formik
         initialValues={{
           collegeName: "",
@@ -50,7 +66,7 @@ const CollegeForm = () => {
           adminUsername: "",
           password: "",
         }}
-        onSubmit={onSubmit}
+        onSubmit={(values, actions) => onSubmit(values, actions, props.edit)}
         render={({ isSubmitting }) => (
           <Form>
             <div className="form-group">
