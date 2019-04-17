@@ -1,6 +1,6 @@
 import React from "react"
+import Router from "next/router"
 import { Input, Row, Col, Label, Container, Button } from "reactstrap"
-// import { Formik, Field, Form } from "formik"
 import axios from "axios"
 import _ from "lodash"
 import SearchResults from "../components/SearchResults"
@@ -8,6 +8,7 @@ import "../style/index.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
+
 class Index extends React.Component {
   state = {
     results: [],
@@ -46,10 +47,19 @@ class Index extends React.Component {
         <header className="shadow">
           <br />
           <Row>
-            <Col md="2">Faculty Directory</Col>
+            <Col md="1">
+              <img
+                src="../static/logo.svg"
+                style={{
+                  marginBottom: 20,
+                  marginLeft: 20,
+                  width: 35,
+                  height: "auto",
+                }}
+              />
+            </Col>
             <Col md="3">
               <Input
-                className="form-control"
                 placeholder="Search"
                 name="search"
                 type="text"
@@ -59,6 +69,7 @@ class Index extends React.Component {
             </Col>
             <Col md="4">
               <Button
+                outline
                 color="primary"
                 onClick={this.onSearch}
                 style={{ borderRadius: 30, marginRight: 20 }}
@@ -89,12 +100,21 @@ class Index extends React.Component {
                 by College
               </Label>
             </Col>
+            <Col md={{ size: 1, offset: 3 }}>
+              <Button
+                outline
+                color="primary"
+                onClick={() => Router.push("/signin")}
+              >
+                Sign In
+              </Button>
+            </Col>
           </Row>
         </header>
         <br />
-        <Container>
+        <Container className="results">
           {!results ? (
-            <React.Fragment />
+            ""
           ) : (
             <SearchResults type={searchType} results={results} />
           )}

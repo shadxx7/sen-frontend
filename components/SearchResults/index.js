@@ -4,16 +4,25 @@ import _ from "lodash"
 import ResultItem from "./ResultItem"
 import "./style.css"
 
-function SearchResults(props) {
+const isEmpty = arr => {
+  if (arr.length === 0) return true
+  else return false
+}
+
+const SearchResults = props => {
   let n = 0
-  return (
-    <ListGroup style={{ width: 500 }} className="temp" flush>
-      {_.map(props.results, item => {
-        n++
-        return <ResultItem key={n} data={item} type={props.type} />
-      })}
-    </ListGroup>
-  )
+  if (!isEmpty(props.results)) {
+    return (
+      <ListGroup style={{ width: 700 }} className="temp" flush>
+        {_.map(props.results, item => {
+          n++
+          return <ResultItem key={n} data={item} type={props.type} />
+        })}
+      </ListGroup>
+    )
+  } else {
+    return <h3 style={{ color: "#5e5e5e" }}>Please search something!</h3>
+  }
 }
 
 export default SearchResults

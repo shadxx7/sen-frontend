@@ -1,6 +1,7 @@
 import { Row, Col, Button, Nav, NavItem } from "reactstrap"
 import CollegeForm from "../Forms/college"
 import CollegeList from "../Lists/college"
+import "./style.css"
 
 const signOut = () => {
   sessionStorage.removeItem("TOKEN")
@@ -12,39 +13,35 @@ const SystemAdmin = () => {
   return (
     <React.Fragment>
       <Row>
-        <Col md={{ size: 2, offset: 10 }}>
-          <Button color="primary" onClick={signOut}>
-            Sign Out
-          </Button>
-        </Col>
-      </Row>
-      <Row>
         <Col md="2">
-          <Nav vertical>
-            <NavItem>
-              <Button
-                color="link"
-                onClick={() => {
-                  setElement(<CollegeForm />)
-                }}
-              >
-                Add College
-              </Button>
-            </NavItem>
-            <NavItem>
-              <Button
-                color="link"
-                onClick={() => {
-                  setElement(<CollegeList />)
-                }}
-              >
-                College List
-              </Button>
-            </NavItem>
-          </Nav>
+          <div className="sidenav" vertical>
+            <Button
+              className="item"
+              color="link"
+              onClick={() => {
+                setElement(<CollegeForm />)
+              }}
+            >
+              Add College
+            </Button>
+            <Button
+              className="item"
+              color="link"
+              onClick={() => {
+                setElement(<CollegeList />)
+              }}
+            >
+              College List
+            </Button>
+            <Button className="signout" color="primary" onClick={signOut}>
+              Sign Out
+            </Button>
+          </div>
         </Col>
         <Col md="6">
-          <Col>{element}</Col>
+          <Col>
+            <div className="element">{element}</div>
+          </Col>
         </Col>
       </Row>
     </React.Fragment>

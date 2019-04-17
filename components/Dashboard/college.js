@@ -1,7 +1,8 @@
 import React from "react"
-import { Row, Col, Button, Nav, NavItem } from "reactstrap"
+import { Row, Col, Button, Nav, NavItem, Container } from "reactstrap"
 import FacultyForm from "../Forms/faculty"
 import FacultyList from "../Lists/faculty"
+import "./style.css"
 
 const signOut = () => {
   sessionStorage.removeItem("TOKEN")
@@ -16,39 +17,34 @@ const CollegeAdmin = () => {
   return (
     <React.Fragment>
       <Row>
-        <Col md={{ size: 2, offset: 10 }}>
-          <Button color="primary" onClick={signOut}>
-            Sign Out
-          </Button>
-        </Col>
-      </Row>
-      <Row>
         <Col md="2">
-          <Nav vertical>
-            <NavItem>
-              <Button
-                color="link"
-                onClick={() => {
-                  setElement(<FacultyForm />)
-                }}
-              >
-                Add Faculty
-              </Button>
-            </NavItem>
-            <NavItem>
-              <Button
-                color="link"
-                onClick={() => {
-                  setElement(<FacultyList />)
-                }}
-              >
-                Faculty List
-              </Button>
-            </NavItem>
-          </Nav>
+          <div className="sidenav">
+            <Button
+              className="item"
+              color="link"
+              onClick={() => {
+                setElement(<FacultyForm />)
+              }}
+            >
+              Add Faculty
+            </Button>
+            <Button
+              className="item"
+              color="link"
+              onClick={() => {
+                setElement(<FacultyList />)
+              }}
+            >
+              Faculty List
+            </Button>
+            <Button className="signout" color="primary" onClick={signOut}>
+              Sign Out
+            </Button>
+          </div>
         </Col>
-        <Col md="4">
-          <Col>{element}</Col>
+
+        <Col md="6">
+          <div className="element">{element}</div>
         </Col>
       </Row>
     </React.Fragment>

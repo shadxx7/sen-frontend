@@ -18,21 +18,22 @@ const onSubmit = (values, actions) => {
       actions.setSubmitting(false)
     })
     .catch(err => {
-      console.log(err)
       actions.setSubmitting(false)
+      actions.setStatus({ msg: err.response.data.message })
+      actions.setErrors(err.response.data.message)
     })
 }
 
 const SignIn = props => {
   return (
     <Container style={{ width: 400, paddingTop: "10%" }}>
-      <h1 className="text-center text-bold" style={{ paddingBottom: 20 }}>
+      <h1 className="text-center" style={{ paddingBottom: 20 }}>
         Admin Sign In
       </h1>
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={onSubmit}
-        render={({ isSubmitting }) => (
+        render={({ errors, status, isSubmitting }) => (
           <Form>
             <div className="form-group">
               <Label>Username</Label>
@@ -54,6 +55,10 @@ const SignIn = props => {
               />
               <ErrorMessage name="password" component="div" />
             </div>
+            {status && status.msg && (
+              <div style={{ color: "red" }}>{status.msg}</div>
+            )}
+            <br />
             <Button disabled={isSubmitting} color="primary">
               Sign In
             </Button>
