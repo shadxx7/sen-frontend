@@ -8,27 +8,28 @@ import {
   ModalHeader,
   ModalFooter,
 } from "reactstrap"
-import axios from "axios"
+import request from "../../utils/request"
 import CollegeForm from "../Forms/college"
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
-
 class CollegeList extends React.Component {
-  state = { college: [], modal: false }
+  state = { token: "", college: [], modal: false, collegeId: "" }
 
   toggle = () => {
     this.setState({ modal: !this.state.modal })
   }
 
   editClick = (e, id) => {
-    this.setState({ modal: true })
+    this.setState({ modal: true, collegeId: id })
   }
 
   deleteClick = (e, id) => {
-    axios
-      .delete(`${API_URL}/college/${id}`)
+    request
+      .delete(`/college/${id}`, {
+        headers: { "x-access-token": this.state.token },
+      })
       .then(response => {
         console.log(response)
+        window.location.reload()
       })
       .catch(err => {
         console.log(err)
@@ -36,10 +37,11 @@ class CollegeList extends React.Component {
   }
 
   componentDidMount() {
-    axios
-      .get(`${API_URL}/college`)
+    const token = sessionStorage.getItem("TOKEN")
+    this.setState({ token })
+    request
+      .get(`/college`, { headers: { "x-access-token": token } })
       .then(response => {
-        console.log(response)
         this.setState({ college: response.data.data })
       })
       .catch(err => {
@@ -54,7 +56,7 @@ class CollegeList extends React.Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Edit College</ModalHeader>
           <ModalBody>
-            <CollegeForm edit />
+            <CollegeForm edit collegeId={this.state.collegeId} />
           </ModalBody>
           <ModalFooter>
             <Button color="secondary" onClick={this.toggle}>

@@ -9,6 +9,7 @@ import "./style.css"
 
 const ResultItem = props => {
   const { data, type } = props
+  console.log(data)
   if (type === "faculty") {
     return (
       <ListGroupItem style={{ display: "flex" }}>

@@ -8,27 +8,27 @@ import {
   ModalHeader,
   ModalFooter,
 } from "reactstrap"
-import axios from "axios"
+import request from "../../utils/request"
 import FacultyForm from "../Forms/faculty"
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
-
 class FacultyList extends React.Component {
-  state = { faculty: [], modal: false }
+  state = { faculty: [], modal: false, facultyId: "" }
 
   toggle = () => {
     this.setState({ modal: !this.state.modal })
   }
 
   editClick = (e, id) => {
-    this.setState({ modal: true })
+    this.setState({ modal: true, facultyId: id })
   }
 
   deleteClick = (e, id) => {
-    axios
-      .delete(`${API_URL}/faculty/${id}`)
+    const token = sessionStorage.getItem("TOKEN")
+    request
+      .delete(`/faculty/${id}`, { headers: { "x-access-token": token } })
       .then(response => {
         console.log(response)
+        window.location.reload()
       })
       .catch(err => {
         console.log(err)
@@ -37,10 +37,9 @@ class FacultyList extends React.Component {
 
   componentDidMount() {
     const collegeId = sessionStorage.getItem("COLLEGE_ID")
-    axios
-      .get(`${API_URL}/college/${collegeId}`)
+    request
+      .get(`/college/${collegeId}`)
       .then(response => {
-        console.log(response)
         this.setState({ faculty: response.data.faculty })
       })
       .catch(err => {
@@ -54,7 +53,7 @@ class FacultyList extends React.Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Edit Faculty</ModalHeader>
           <ModalBody>
-            <FacultyForm edit />
+            <FacultyForm edit facultyId={this.state.facultyId} />
           </ModalBody>
           <ModalFooter>
             <Button color="secondary" onClick={this.toggle}>

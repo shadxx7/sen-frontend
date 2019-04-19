@@ -28,14 +28,14 @@ const FacultyFormSchema = Yup.object().shape({
     .required("Required"),
 })
 
-const onSubmit = async (values, actions, edit) => {
+const onSubmit = async (values, actions, props) => {
   const collegeId = sessionStorage.getItem("COLLEGE_ID")
   const collegeName = sessionStorage.getItem("COLLEGE_NAME")
   const token = sessionStorage.getItem("TOKEN")
   const finalValues = {
     name: values.name,
     department: values.department,
-    aoi: [{ name: values.aoi }],
+    areaOfInterests: [{ name: values.aoi }],
     publications: [
       { name: values.publications, description: "Something goes here" },
     ],
@@ -45,16 +45,18 @@ const onSubmit = async (values, actions, edit) => {
       id: collegeId,
     },
   }
-  if (edit) {
+  if (props.edit) {
+    const editValues = { faculty: finalValues, id: props.facultyId }
     axios({
-      method: "post",
+      method: "put",
       headers: { "x-access-token": token },
       url: `${API_URL}/faculty/update`,
-      data: finalValues,
+      data: editValues,
     })
       .then(response => {
         actions.setSubmitting(false)
         actions.setStatus({ msg: response.data })
+        window.location.reload()
       })
       .catch(err => {
         actions.setSubmitting(false)
@@ -92,7 +94,7 @@ const FacultyForm = props => {
           coursesTaught: "",
         }}
         validationSchema={FacultyFormSchema}
-        onSubmit={(values, actions) => onSubmit(values, actions, props.edit)}
+        onSubmit={(values, actions) => onSubmit(values, actions, props)}
         render={({ status, isSubmitting }) => (
           <Form>
             <div className="form-group">
