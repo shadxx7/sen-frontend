@@ -1,4 +1,5 @@
 import { Form, Formik, Field, ErrorMessage } from "formik"
+import Router from "next/router"
 import { Container, Button, Label } from "reactstrap"
 import axios from "axios"
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -9,12 +10,19 @@ const onSubmit = (values, actions) => {
   axios
     .post(`${API_URL}/signin`, values)
     .then(response => {
+      let type
       sessionStorage.setItem("TOKEN", response.data.token)
       if (response.data.admin.type === "college") {
         sessionStorage.setItem("COLLEGE_NAME", response.data.admin.college.name)
         sessionStorage.setItem("COLLEGE_ID", response.data.admin.college.id)
+        type = "college"
+      } else {
+        type = "system"
       }
-      window.location.href = "/admin"
+      Router.push({
+        pathname: "/admin",
+        query: { type, element: "list" },
+      })
       actions.setSubmitting(false)
     })
     .catch(err => {

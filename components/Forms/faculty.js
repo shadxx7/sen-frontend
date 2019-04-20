@@ -2,6 +2,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik"
 import { Label } from "reactstrap"
 import * as Yup from "yup"
 import axios from "axios"
+import Router from "next/router"
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
 
@@ -56,7 +57,10 @@ const onSubmit = async (values, actions, props) => {
       .then(response => {
         actions.setSubmitting(false)
         actions.setStatus({ msg: response.data })
-        window.location.reload()
+        Router.push({
+          pathname: "/admin",
+          query: { type: "college", element: "list" },
+        })
       })
       .catch(err => {
         actions.setSubmitting(false)
@@ -73,6 +77,10 @@ const onSubmit = async (values, actions, props) => {
       .then(response => {
         actions.setSubmitting(false)
         actions.setStatus({ msg: response.data })
+        Router.push({
+          pathname: "/admin",
+          query: { type: "college", element: "form" },
+        })
       })
       .catch(err => {
         actions.setSubmitting(false)

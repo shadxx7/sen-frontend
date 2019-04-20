@@ -1,4 +1,5 @@
 import { Formik, Field, Form, ErrorMessage } from "formik"
+import Router from "next/router"
 import { Label } from "reactstrap"
 import axios from "axios"
 import * as Yup from "yup"
@@ -60,6 +61,10 @@ const onSubmit = async (values, actions, props) => {
       .then(response => {
         actions.setSubmitting(false)
         actions.setStatus({ msg: response.data })
+        Router.push({
+          pathname: "/admin",
+          query: { type: "system", element: "list" },
+        })
       })
       .catch(err => {
         actions.setSubmitting(false)
@@ -76,7 +81,10 @@ const onSubmit = async (values, actions, props) => {
       .then(response => {
         actions.setSubmitting(false)
         actions.setStatus({ msg: response.data })
-        window.location.reload()
+        Router.push({
+          pathname: "/admin",
+          query: { type: "system", element: "form" },
+        })
       })
       .catch(err => {
         actions.setSubmitting(false)

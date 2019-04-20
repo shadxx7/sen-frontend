@@ -4,21 +4,27 @@ import SystemAdmin from "../components/Dashboard/system"
 import "bootstrap/dist/css/bootstrap.min.css"
 
 class AdminDashboard extends React.Component {
-  state = { type: "" }
+  state = { type: "", element: "" }
 
   componentDidMount() {
-    const college = sessionStorage.getItem("COLLEGE_ID")
-    let type
-    if (college) type = "college"
-    else type = "system"
-    return this.setState({ type })
+    const { type, element } = this.props.url.query
+    this.setState({ type, element })
   }
+
+  componentDidUpdate(prevProps) {
+    const { type, element } = this.props.url.query
+    if (this.props !== prevProps) {
+      this.setState({ type, element })
+    }
+  }
+
   render() {
     let element
-    console.log(this.state.type)
     const { type } = this.state
-    if (type === "system") element = <SystemAdmin />
-    else if (type === "college") element = <CollegeAdmin />
+    if (type === "system")
+      element = <SystemAdmin element={this.state.element} />
+    else if (type === "college")
+      element = <CollegeAdmin element={this.state.element} />
     return <div>{element}</div>
   }
 }
