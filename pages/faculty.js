@@ -1,6 +1,6 @@
 import React from "react"
-import Link from "next/link"
-import { Jumbotron, Container, Row, Col } from "reactstrap"
+import Router from "next/router"
+import { Button, Container, Row, Col } from "reactstrap"
 import axios from "axios"
 import "bootstrap/dist/css/bootstrap.min.css"
 
@@ -10,7 +10,14 @@ const FacultyPage = props => {
   console.log(props.data)
   return (
     <div>
-      <Link href="/">Back</Link>
+      <Button
+        color="link"
+        onClick={() => {
+          Router.back()
+        }}
+      >
+        Back
+      </Button>
       <Container>
         <br />
         <Row>
@@ -23,21 +30,18 @@ const FacultyPage = props => {
             <h2>{props.data.college.name}</h2>
           </Col>
         </Row>
-        <Row>
-          <Col>Area of Interests:</Col>
-        </Row>
-        <Row>
-          <Col>
+        <br />
+        <dl class="row">
+          <dt class="col-sm-3">Department</dt>
+          <dd class="col-sm-9">{props.data.department}</dd>
+          <dt class="col-sm-3">Area of Interests</dt>
+          <dd class="col-sm-9">
             {props.data.areaOfInterests.map(aoi => {
               return `${aoi.name} `
             })}
-          </Col>
-        </Row>
-        <Row>
-          <Col>Publications:</Col>
-        </Row>
-        <Row>
-          <Col>
+          </dd>
+          <dt class="col-sm-3">Publications</dt>
+          <dd class="col-sm-9">
             {props.data.publications
               ? props.data.publications.map(publication => {
                   return (
@@ -47,13 +51,9 @@ const FacultyPage = props => {
                   )
                 })
               : "Nothing here.."}
-          </Col>
-        </Row>
-        <Row>
-          <Col>Courses Taught:</Col>
-        </Row>
-        <Row>
-          <Col>
+          </dd>
+          <dt class="col-sm-3 text-truncate">Courses Taught</dt>
+          <dd class="col-sm-9">
             {props.data.coursesTaught
               ? props.data.coursesTaught.map(course => {
                   return (
@@ -63,8 +63,8 @@ const FacultyPage = props => {
                   )
                 })
               : "Nothing here.."}
-          </Col>
-        </Row>
+          </dd>
+        </dl>
       </Container>
     </div>
   )

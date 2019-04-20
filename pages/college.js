@@ -1,6 +1,14 @@
 import React from "react"
+import Router from "next/router"
 import Link from "next/link"
-import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap"
+import {
+  Button,
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  ListGroupItem,
+} from "reactstrap"
 import axios from "axios"
 import "bootstrap/dist/css/bootstrap.min.css"
 
@@ -9,7 +17,14 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
 const CollegePage = props => {
   return (
     <div>
-      <Link href="/">Back</Link>
+      <Button
+        color="link"
+        onClick={() => {
+          Router.back()
+        }}
+      >
+        Back
+      </Button>
       <Container>
         <br />
         <Row>
@@ -24,7 +39,8 @@ const CollegePage = props => {
             </h2>
           </Col>
         </Row>
-        <h2>Faculties:</h2>
+        <h2>Faculties</h2>
+        <br />
         <ListGroup flush>
           {props.data.faculty.map(faculty => {
             return (
