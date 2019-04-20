@@ -7,28 +7,28 @@ const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"
 
 const CollegeFormSchema = Yup.object().shape({
   collegeName: Yup.string()
-    .min(2, "Too short!")
-    .max(70, "Too long!")
+    .min(3, "Too short!")
+    .max(50, "Too long!")
     .required("Required"),
   country: Yup.string()
-    .min(2, "Too short!")
+    .min(3, "Too short!")
     .max(50, "Too long!")
     .required("Required"),
   city: Yup.string()
-    .min(2, "Too short!")
+    .min(3, "Too short!")
     .max(50, "Too long!")
     .required("Required"),
   adminName: Yup.string()
-    .min(2, "Too short!")
+    .min(3, "Too short!")
     .max(50, "Too long!")
     .required("Required"),
   adminUsername: Yup.string()
-    .min(2, "Too short!")
-    .max(15, "Too long!")
+    .min(3, "Too short!")
+    .max(50, "Too long!")
     .required("Required"),
   password: Yup.string()
-    .min(2, "Too short!")
-    .max(20, "Too long!")
+    .min(3, "Too short!")
+    .max(50, "Too long!")
     .required("Required"),
 })
 
