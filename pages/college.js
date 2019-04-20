@@ -29,7 +29,7 @@ const CollegePage = props => {
           {props.data.faculty.map(faculty => {
             return (
               <ListGroupItem style={{ width: 400 }}>
-                <Link href={`/faculty?id=${faculty._id}`}>
+                <Link href={`/faculty?id=${faculty.id}`}>
                   <a>{faculty.name}</a>
                 </Link>
               </ListGroupItem>
