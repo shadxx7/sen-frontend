@@ -1,5 +1,9 @@
 # SEN-Frontend
 
+Frontend for an Open Faculty Directory Web App. Done as a project for a Software Engineering Course.
+
+Backend is available here: https://github.com/statebait/sen-backend
+
 ## For Development
 
 ### To run the react app
